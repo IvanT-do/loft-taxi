@@ -8,12 +8,17 @@ export default function Auth({ onNavigate }){
 
     const navigateTo = (page) => () => onNavigate(page);
 
+    const submitHandle = (e) => {
+        e.preventDefault();
+        onNavigate("home");
+    }
+
     return (
         <div className="page">
             <Sidebar />
             <div className="wrapper">
                 <div className="content-card auth-card">
-                    <form className="auth-card__content">
+                    <form className="auth-card__content" onSubmit={submitHandle}>
                         <h2 className="auth-card__title">Войти</h2>
                         <TextField
                             id="email"
@@ -35,7 +40,7 @@ export default function Auth({ onNavigate }){
                             </span>
                         </div>
                         <div className="auth-card__action">
-                            <Button onClick={navigateTo("home")}>Войти</Button>
+                            <Button type="submit">Войти</Button>
                         </div>
                         <div className="auth-card__register">
                             Новый пользователь? <span className="link" onClick={navigateTo("register")}>Регистрация</span>

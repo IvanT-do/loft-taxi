@@ -8,12 +8,17 @@ export default function Register({ onNavigate }){
 
     const navigateTo = (page) => () => onNavigate(page);
 
+    const submitHandle = (e) => {
+        e.preventDefault();
+        onNavigate("home");
+    }
+
     return (
         <div className="page">
             <Sidebar />
             <div className="wrapper">
                 <div className="content-card register-card">
-                    <form className="register-card__content">
+                    <form className="register-card__content" onSubmit={submitHandle}>
                         <h2 className="register-card__title">Регистрация</h2>
                         <TextField
                             id="email"
@@ -37,7 +42,7 @@ export default function Register({ onNavigate }){
                             placeholder="*************"
                         />
                         <div className="register-card__action">
-                            <Button onClick={navigateTo("home")}>Зарегистрироваться</Button>
+                            <Button type="submit">Зарегистрироваться</Button>
                         </div>
                         <div className="register-card__auth">
                             Уже зарегистрированы? <span className="link" onClick={navigateTo("auth")}>Войти</span>
