@@ -1,0 +1,10 @@
+.nav-link{
+    cursor: pointer;
+    color: #fff;
+    font-size: 21px;
+    line-height: 25px;
+}
+
+.nav-link_active{
+    color: var(--color-yellow);
+}

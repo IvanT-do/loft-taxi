@@ -1,0 +1,23 @@
+.button{
+    background: var(--color-yellow);
+    color: var(--color-text);
+    border-radius: 70px;
+    font-size: 24px;
+    line-height: 28px;
+    padding: 17px 40px;
+    min-width: 353px;
+    text-align: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+.button:hover,
+.button:focus {
+    background: var(--color-yellow-active);
+}
+
+.button__disabled{
+    background: var(--color-disabled);
+    color: var(--color-text-disabled);
+}

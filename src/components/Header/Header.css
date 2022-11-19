@@ -1,0 +1,20 @@
+.header{
+    background: var(--color-header);
+    height: 102px;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+}
+
+.header__logo{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.header__nav{
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    padding: 20px;
+}

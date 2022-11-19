@@ -1,0 +1,16 @@
+.sidebar{
+    width: 485px;
+    background: var(--color-header);
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.sidebar__logo{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}

@@ -1,0 +1,33 @@
+.auth-card{
+    padding: 56px 112px;
+    margin: 20px;
+    max-width: calc(100% - 40px);
+}
+
+.auth-card__content{
+    max-width: 355px;
+}
+
+.auth-card__title{
+    text-align: center;
+    font-size: 30px;
+    line-height: 35px;
+    margin-bottom: 46px;
+}
+
+.auth-card__forgot{
+    display: flex;
+    justify-content: end;
+}
+
+.auth-card__action{
+    margin-top: 46px;
+    margin-bottom: 33px;
+}
+
+.auth-card__register{
+    color: var(--color-text-secondary);
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+}
