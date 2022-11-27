@@ -1,16 +1,36 @@
-import Sidebar from "../../components/Sidebar/Sidebar";
-import TextField from "../../components/TextField/TextField";
-import Button from "../../components/Button/Button";
+import Sidebar from "../../components/Sidebar";
+import TextField from "../../components/TextField";
+import Button from "../../components/Button";
+import {useAuth} from "../../utils/AuthProvider";
+import {useEffect} from "react";
+import PropTypes from "prop-types";
 
 import "./Auth.css";
 
 export default function Auth({ onNavigate }){
+    const auth = useAuth();
+
+    useEffect(() => {
+        if(auth.isLoggedIn){
+            onNavigate("home");
+        }
+    })
 
     const navigateTo = (page) => () => onNavigate(page);
 
     const submitHandle = (e) => {
         e.preventDefault();
-        onNavigate("home");
+
+        const formData = {};
+
+        [...e.target].forEach(item => {
+            if(item.name){
+                formData[item.name] = item.value;
+            }
+        })
+
+        const {email, password} = formData;
+        auth.login(email, password);
     }
 
     return (
@@ -50,4 +70,8 @@ export default function Auth({ onNavigate }){
             </div>
         </div>
     );
+}
+
+Auth.propTypes = {
+    onNavigate: PropTypes.func
 }

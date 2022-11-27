@@ -1,10 +1,12 @@
 import LogoImage from "../Logo/LogoImage";
 import LogoText from "../Logo/LogoText";
-import NavLink from "../NavLink/NavLink";
+import NavLink from "../NavLink";
+import {useAuth} from "../../utils/AuthProvider";
+import PropTypes from "prop-types";
 
 import "./Header.css";
 
-const links = [
+export const links = [
     {
         label: "Карта",
         page: "home"
@@ -17,7 +19,11 @@ const links = [
 
 export default function Header({ onNavigate, currentPage }){
 
+    const auth = useAuth();
+
     const navigateTo = (page) => () => onNavigate(page);
+
+    const logoutHandle = () => auth.logout();
 
     return (
         <header className="header">
@@ -38,9 +44,14 @@ export default function Header({ onNavigate, currentPage }){
                 }
                 <NavLink
                     label="Выйти"
-                    onClick={navigateTo("auth")}
+                    onClick={logoutHandle}
                 />
             </div>
         </header>
     );
+}
+
+Header.propTypes = {
+    onNavigate: PropTypes.func.isRequired,
+    currentPage: PropTypes.string.isRequired
 }

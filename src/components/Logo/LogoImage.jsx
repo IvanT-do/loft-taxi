@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const sizes = {
     "normal": 61,
@@ -22,4 +23,8 @@ export default function LogoImage({size= "normal"}){
             </g>
         </svg>
     );
+}
+
+LogoImage.propTypes = {
+    size: PropTypes.oneOf(Object.keys(sizes))
 }

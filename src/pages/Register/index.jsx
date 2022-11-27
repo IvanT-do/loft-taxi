@@ -1,6 +1,7 @@
-import Sidebar from "../../components/Sidebar/Sidebar";
-import TextField from "../../components/TextField/TextField";
-import Button from "../../components/Button/Button";
+import Sidebar from "../../components/Sidebar";
+import TextField from "../../components/TextField";
+import Button from "../../components/Button";
+import PropTypes from "prop-types";
 
 import  "./Register.css";
 
@@ -52,4 +53,8 @@ export default function Register({ onNavigate }){
             </div>
         </div>
     );
+}
+
+Register.propTypes = {
+    onNavigate: PropTypes.func
 }

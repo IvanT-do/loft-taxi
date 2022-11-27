@@ -1,4 +1,5 @@
 import {getClass} from "../../utils/main";
+import PropTypes from "prop-types";
 
 import "./NavLink.css";
 
@@ -8,4 +9,10 @@ export default function NavLink({ onClick, active= false, label }){
             { label }
         </div>
     );
+}
+
+NavLink.propTypes = {
+    onClick: PropTypes.func,
+    active: PropTypes.bool,
+    label: PropTypes.string.isRequired
 }
