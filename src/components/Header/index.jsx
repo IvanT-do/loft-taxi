@@ -1,29 +1,31 @@
 import LogoImage from "../Logo/LogoImage";
 import LogoText from "../Logo/LogoText";
 import NavLink from "../NavLink";
-import {useAuth} from "../../utils/AuthProvider";
-import PropTypes from "prop-types";
+import {matchPath, useLocation, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {logout} from "../../store/mainSlice";
 
 import "./Header.css";
 
 export const links = [
     {
         label: "Карта",
-        page: "home"
+        page: "/"
     },
     {
         label: "Профиль",
-        page: "profile"
+        page: "/profile"
     }
 ];
 
-export default function Header({ onNavigate, currentPage }){
+export default function Header(){
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const auth = useAuth();
+    const navigateTo = (page) => () => navigate(page);
 
-    const navigateTo = (page) => () => onNavigate(page);
-
-    const logoutHandle = () => auth.logout();
+    const logoutHandle = () => dispatch(logout());
 
     return (
         <header className="header">
@@ -36,7 +38,7 @@ export default function Header({ onNavigate, currentPage }){
                     links.map(({label, page}) => (
                         <NavLink
                             key={page}
-                            active={page === currentPage}
+                            active={!!matchPath(location.pathname, page)}
                             label={label}
                             onClick={navigateTo(page)}
                         />
@@ -49,9 +51,4 @@ export default function Header({ onNavigate, currentPage }){
             </div>
         </header>
     );
-}
-
-Header.propTypes = {
-    onNavigate: PropTypes.func.isRequired,
-    currentPage: PropTypes.string.isRequired
 }

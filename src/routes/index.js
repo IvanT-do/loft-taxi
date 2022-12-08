@@ -4,11 +4,22 @@ import Auth from "../pages/Auth";
 import Register from "../pages/Register";
 import Home from "../pages/Home";
 import Profile from "../pages/Profile";
+import Template from "../pages/Template";
 
 const routes = [
     {
         path: "/",
-        element: <Home />
+        element: <Template />,
+        children: [
+            {
+                path: "",
+                element: <Home />,
+            },
+            {
+                path: "profile",
+                element: <Profile />,
+            }
+        ]
     },
     {
         path: "/auth",
@@ -17,10 +28,6 @@ const routes = [
     {
         path: "/register",
         element: <Register />
-    },
-    {
-        path: "/auth",
-        element: <Profile />
     }
 ]
 

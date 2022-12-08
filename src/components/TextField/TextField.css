@@ -12,6 +12,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 11px;
+    width: 100%;
 }
 
 .text-field__label{
@@ -38,6 +39,17 @@
     font-size: 12px;
     line-height: 14px;
     height: 14px;
+}
+
+.text-field__input_small{
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 19px;
+}
+
+.text-field__label_small{
+    color: var(--color-text-secondary);
+    font-weight: normal;
 }
 
 .text-field_invalid{

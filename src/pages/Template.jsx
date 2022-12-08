@@ -1,20 +1,14 @@
 import Header from "../components/Header";
 import Map from "../components/Map";
-import PropTypes from "prop-types";
+import { Outlet } from "react-router-dom";
 
-export default function Template({onNavigate, currentPage, children}){
+export default function Template(){
     return (
         <div className="page page_vert">
-            <Header onNavigate={onNavigate} currentPage={currentPage} />
+            <Header />
             <Map>
-                { children }
+                <Outlet />
             </Map>
         </div>
     );
-}
-
-Template.propTypes = {
-    onNavigate: PropTypes.func,
-    currentPage: PropTypes.string,
-    children: PropTypes.element
 }

@@ -5,8 +5,19 @@ const initialState = {
     loggedIn: false,
     token: "",
     error: "",
-    loading: false
+    loading: false,
+
+    profileLoading: false,
+    profileLoaded: false,
+    card: {
+        cardName: "",
+        expiryDate: "",
+        cardNumber: "",
+        cvc: ""
+    }
 }
+
+initialState.profileEditor = initialState.card;
 
 const logInReducer = (state, {payload}) => {
     state.loading = false;
@@ -21,8 +32,8 @@ const logInReducer = (state, {payload}) => {
     }
 }
 
-const authSlice = createSlice({
-    name: "auth",
+const mainSlice = createSlice({
+    name: "main",
     initialState,
     reducers: {
         logout: (state) => {
@@ -39,6 +50,14 @@ const authSlice = createSlice({
                     state.loggedIn = true;
                 }
             }
+        },
+        setProfileValue: (state, { payload: { name, value } }) => {
+            if(state.profileEditor.hasOwnProperty(name)){
+                state.profileEditor[name] = value;
+            }
+        },
+        clearProfileChanges: (state) => {
+            state.profileEditor = state.card;
         }
     },
     extraReducers: builder => {
@@ -50,20 +69,41 @@ const authSlice = createSlice({
             .addCase(registerAsync.pending, setLoading(true))
             .addCase(registerAsync.rejected, setLoading(false))
             .addCase(registerAsync.fulfilled, logInReducer)
+            .addCase(fetchProfileAsync.pending, (state) => {
+                state.profileLoading = true;
+            })
+            .addCase(fetchProfileAsync.rejected, (state) => {
+                state.profileLoading = false;
+            })
+            .addCase(fetchProfileAsync.fulfilled, (state, { payload }) => {
+                state.profileLoading = false;
+                state.profileLoaded = true;
+                payload.expiryDate = new Date(payload.expiryDate).toLocaleDateString("en-BR", {month: "2-digit", year:"2-digit"});
+                state.card = payload;
+                state.profileEditor = payload;
+            })
+            .addCase(saveProfileAsync.fulfilled, (state, { payload }) => {
+                if(payload.status === "success"){
+                    state.card = state.profileEditor = payload.formData;
+                }
+            })
     }
 });
 
 export const {
     logout,
-    initAuth
-} = authSlice.actions;
+    initAuth,
+    setProfileValue
+} = mainSlice.actions;
 
-export default authSlice.reducer;
+export default mainSlice.reducer;
 
-export const userIsLogged = (state) => state.auth.loggedIn;
+export const userIsLogged = (state) => state.main.loggedIn;
+export const getToken = (state) => state.main.token;
+export const getProfile = (state) => state.main.profileEditor;
 
 export const authAsync = createAsyncThunk(
-    "auth/login",
+    "main/login",
     async (authData) => {
         const {data} = await api.auth.login(authData);
         return data;
@@ -71,10 +111,34 @@ export const authAsync = createAsyncThunk(
 )
 
 export const registerAsync = createAsyncThunk(
-    "auth/register",
+    "main/register",
     async ({name: fullName, ...other}) => {
         const [name, surname] = fullName.split(" ");
         const { data } = await api.auth.register({ ...other, name, surname });
         return data;
+    }
+)
+
+export const fetchProfileAsync = createAsyncThunk(
+    "main/fetchProfile",
+    async (nothing, { getState }) => {
+        const token = getToken(getState());
+        const { data } = await api.profile.fetch(token);
+        return data;
+    }
+)
+
+export const fetchProfileIfNotLoaded = () => (dispatch, getState) => {
+    const state = getState().main;
+    if(!state.profileLoading && !state.profileLoaded){
+        dispatch(fetchProfileAsync());
+    }
+}
+
+export const saveProfileAsync = createAsyncThunk(
+    "main/saveProfile",
+    async (formData, { getState }) => {
+        const { data } = await api.profile.save(formData, getToken(getState()));
+        return {...data, formData};
     }
 )

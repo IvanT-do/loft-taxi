@@ -1,17 +1,23 @@
 import Sidebar from "../../components/Sidebar";
 import TextField from "../../components/TextField";
 import Button from "../../components/Button";
-import PropTypes from "prop-types";
+import withAuth from "../../utils/withAuth";
+import {useNavigate} from "react-router-dom";
+import {getFormData} from "../../utils/main";
+import {useDispatch} from "react-redux";
+import {registerAsync} from "../../store/mainSlice";
 
 import  "./Register.css";
 
-export default function Register({ onNavigate }){
-
-    const navigateTo = (page) => () => onNavigate(page);
+function Register(){
+    const navigate = useNavigate();
+    const navigateTo = (page) => () => navigate(page, {replace: true});
+    const dispatch = useDispatch();
 
     const submitHandle = (e) => {
         e.preventDefault();
-        onNavigate("home");
+
+        dispatch(registerAsync(getFormData(e.target)));
     }
 
     return (
@@ -46,7 +52,7 @@ export default function Register({ onNavigate }){
                             <Button type="submit">Зарегистрироваться</Button>
                         </div>
                         <div className="register-card__auth">
-                            Уже зарегистрированы? <span className="link" onClick={navigateTo("auth")}>Войти</span>
+                            Уже зарегистрированы? <span className="link" onClick={navigateTo("/auth")}>Войти</span>
                         </div>
                     </form>
                 </div>
@@ -55,6 +61,4 @@ export default function Register({ onNavigate }){
     );
 }
 
-Register.propTypes = {
-    onNavigate: PropTypes.func
-}
+export default withAuth(Register, true, "/");

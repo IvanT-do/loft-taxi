@@ -1,21 +1,42 @@
 import {fireEvent, render} from "@testing-library/react";
 import '@testing-library/jest-dom';
-import * as hooks from "../../utils/AuthProvider";
 
 import Header, {links} from "./index";
 
+import * as routeData from "react-router-dom";
+import * as slice from "../../store/mainSlice";
+
+jest.mock("axios", () => ({
+    defaults: {}
+}));
+
+jest.mock('react-router-dom', () => {
+    return {
+        __esModule: true,
+        useNavigate: () => () => {},
+        useLocation: () => ({pathname: "/"}),
+        matchPath: (val, val2) => val === val2
+    };
+})
+
+jest.mock("react-redux", () => ({
+    useDispatch: () => (val) => val
+}));
+
 describe("Компонент Header", () => {
     it("отрисовываются все ссылки", () => {
-        const { container } = render(<Header onNavigate={() => {}} currentPage=""/>);
+        const { container } = render(<Header />);
 
         expect(container.getElementsByClassName("header__nav")[0].children.length).toBe(links.length + 1);
     })
 
     it("Обрабатываются нажатия на ссылки", () => {
         const navigate = jest.fn();
-        const { container } = render(<Header onNavigate={navigate} currentPage=""/>);
+        jest.spyOn(routeData, 'useNavigate').mockReturnValue(navigate);
 
-        fireEvent.click(container.getElementsByClassName("header__nav")[0].firstChild);
+        const { container } = render(<Header />);
+
+        fireEvent.click(container.querySelector(".header__nav").firstChild);
 
         expect(navigate.mock.calls.length).toBe(1);
         expect(navigate.mock.calls[0][0]).toBe(links[0].page);
@@ -23,9 +44,7 @@ describe("Компонент Header", () => {
 
     it("Работает выход", () => {
         const logout = jest.fn();
-        jest.spyOn(hooks, 'useAuth').mockImplementation(() => ({
-            logout
-        }));
+        jest.spyOn(slice, 'logout').mockImplementation(logout);
         const { getByText } = render(<Header onNavigate={() => {}} currentPage=""/>);
 
         expect(logout.mock.calls.length).toBe(0);
@@ -36,7 +55,7 @@ describe("Компонент Header", () => {
     })
 
     it("Корректно проставляется признак активности", () => {
-        const { container } = render(<Header onNavigate={() => {}} currentPage={links[0].page}/>);
+        const { container } = render(<Header />);
 
         const nav = container.querySelector(".header__nav");
 

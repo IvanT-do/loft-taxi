@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const sizes = {
+    "small": 33,
     "normal": 61,
     "large": 136
 };
