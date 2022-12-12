@@ -4,15 +4,30 @@ import PropTypes from "prop-types";
 import env from "../../env";
 
 import './Map.css';
+import {useSelector} from "react-redux";
+import {getTargetCoordinates} from "../../store/orderSlice";
+import {drawRoute} from "../../utils/main";
 
 mapboxgl.accessToken = env.token;
 
 export default function Map({children}) {
     const mapContainerRef = useRef(null);
 
-    const [lng, setLng] = React.useState(44);
-    const [lat, setLat] = React.useState(56.32);
+    const [map, setMap] = React.useState(null);
+    const coordinates = useSelector(getTargetCoordinates);
+
+    const [lng, setLng] = React.useState(30.3104);
+    const [lat, setLat] = React.useState(59.9367);
     const [zoom, setZoom] = React.useState(11.35);
+
+    useEffect(() => {
+        if(map){
+            try{
+                drawRoute(map, coordinates);
+            }
+            catch{}
+        }
+    }, [map, coordinates])
 
     useEffect(() => {
         const map = new mapboxgl.Map({
@@ -27,6 +42,8 @@ export default function Map({children}) {
             setLat(map.getCenter().lat.toFixed(4));
             setZoom(map.getZoom().toFixed(2));
         });
+
+        setMap(map);
 
         // Clean up on unmount
         return () => map.remove();

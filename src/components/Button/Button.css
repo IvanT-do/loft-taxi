@@ -17,7 +17,7 @@
     background: var(--color-yellow-active);
 }
 
-.button__disabled{
+.button_disabled{
     background: var(--color-disabled);
     color: var(--color-text-disabled);
 }

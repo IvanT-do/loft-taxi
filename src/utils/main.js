@@ -47,3 +47,46 @@ export const validateCardNumber = (value) => setMask("____ ____ ____ ____", valu
 export const validateExpire = (value) => setMask("__/__", value.replace(/\D/g, ""));
 
 export const validateCVC = (value) => value.replace(/\D/g, "").substring(0, 3);
+
+let layerId = 0;
+export const drawRoute = (map, coordinates) => {
+    const getId = () => `route${ layerId }`;
+
+    let id = getId();
+
+    map.flyTo({
+        center: coordinates[0],
+        zoom: 15
+    });
+
+    if(map.getLayer(id)){
+        map.removeLayer(id);
+    }
+
+    layerId ++;
+    id = getId();
+
+    map.addLayer({
+        id,
+        type: "line",
+        source: {
+            type: "geojson",
+            data: {
+                type: "Feature",
+                properties: {},
+                geometry: {
+                    type: "LineString",
+                    coordinates
+                }
+            }
+        },
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": "#ffc617",
+            "line-width": 8
+        }
+    });
+};

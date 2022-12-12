@@ -1,0 +1,20 @@
+.success-card{
+    padding: 40px;
+}
+
+.success-card__header{
+    font-size: 36px;
+    line-height: 42px;
+    margin-bottom: 14px;
+}
+
+.success-card__text{
+    font-size: 18px;
+    line-height: 20px;
+    color: var(--color-text-disabled);
+    min-height: 73px;
+}
+
+.success-card__action{
+    text-align: center;
+}

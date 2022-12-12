@@ -42,7 +42,6 @@ const mainSlice = createSlice({
             localStorage.removeItem("token");
         },
         initAuth: (state) => {
-            console.log("init");
             if(!state.loggedIn){
                 const token = localStorage.getItem("token");
                 if(token){
@@ -78,7 +77,9 @@ const mainSlice = createSlice({
             .addCase(fetchProfileAsync.fulfilled, (state, { payload }) => {
                 state.profileLoading = false;
                 state.profileLoaded = true;
-                payload.expiryDate = new Date(payload.expiryDate).toLocaleDateString("en-BR", {month: "2-digit", year:"2-digit"});
+                if(!/\d{2}\/\d{2}/.test(payload.expiryDate)){
+                    payload.expiryDate = new Date(payload.expiryDate).toLocaleDateString("en-BR", {month: "2-digit", year:"2-digit"});
+                }
                 state.card = payload;
                 state.profileEditor = payload;
             })
@@ -131,8 +132,12 @@ export const fetchProfileAsync = createAsyncThunk(
 export const fetchProfileIfNotLoaded = () => (dispatch, getState) => {
     const state = getState().main;
     if(!state.profileLoading && !state.profileLoaded){
-        dispatch(fetchProfileAsync());
+        return dispatch(fetchProfileAsync()).unwrap();
     }
+    if(!state.profileLoaded){
+        return Promise.resolve(null)
+    }
+    return Promise.resolve(state.card);
 }
 
 export const saveProfileAsync = createAsyncThunk(
