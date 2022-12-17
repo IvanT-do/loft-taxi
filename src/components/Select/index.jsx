@@ -15,7 +15,10 @@ export default function Select({label, startAdornment, options, sx, ...props}){
                 },
                 "& .MuiOutlinedInput-notchedOutline": {
                     outline: "none",
-                    border: "none",
+                    border: "none"
+                },
+                "& .MuiAutocomplete-clearIndicator": {
+                    visibility: "visible"
                 },
                 ...sx
             }}

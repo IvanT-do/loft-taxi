@@ -17,8 +17,6 @@ const initialState = {
     }
 }
 
-initialState.profileEditor = initialState.card;
-
 const logInReducer = (state, {payload}) => {
     state.loading = false;
     if(payload.success){
@@ -50,13 +48,8 @@ const mainSlice = createSlice({
                 }
             }
         },
-        setProfileValue: (state, { payload: { name, value } }) => {
-            if(state.profileEditor.hasOwnProperty(name)){
-                state.profileEditor[name] = value;
-            }
-        },
-        clearProfileChanges: (state) => {
-            state.profileEditor = state.card;
+        setProfileCard: (state, { payload }) => {
+            state.card = payload;
         }
     },
     extraReducers: builder => {
@@ -94,7 +87,7 @@ const mainSlice = createSlice({
 export const {
     logout,
     initAuth,
-    setProfileValue
+    setProfileCard
 } = mainSlice.actions;
 
 export default mainSlice.reducer;
