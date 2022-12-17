@@ -71,7 +71,7 @@ export default function OrderForm({ onSubmit }){
 
     return (
         <div className="map-card order">
-            <div className={getClass(["order__address", {"order__address_minimal": !from || !to}])}>
+            <div className={getClass("order__address", {"order__address_minimal": !from || !to})}>
                 <Select
                     sx={{
                         borderBottom: "solid 1px #E0E0E0"

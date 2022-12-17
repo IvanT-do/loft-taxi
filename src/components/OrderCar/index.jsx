@@ -5,7 +5,7 @@ import "./style.css";
 export default function OrderCar({name, cost, image, active, onClick}){
     return (
         <div
-            className={getClass(["order-car", {"order-car_active": active}])}
+            className={getClass("order-car", {"order-car_active": active})}
             onClick={onClick}
         >
             <div className="order-car__name">

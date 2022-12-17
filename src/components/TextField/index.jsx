@@ -7,15 +7,15 @@ import "./TextField.css";
 export default function TextField({type="text", placeholder, helperText, id, name, label, onChange, value, error=false, size="normal", ...other}){
     const isSmall = size === "small";
     return (
-        <div className={getClass(["text-field", {"text-field_invalid": error, "text-field_small": isSmall}])}>
+        <div className={getClass("text-field", {"text-field_invalid": error, "text-field_small": isSmall})}>
             <label
-                className={getClass(["text-field__label", {"text-field__label_small": isSmall}])}
+                className={getClass("text-field__label", {"text-field__label_small": isSmall})}
                 htmlFor={id}
             >
                 {label}
             </label>
             <input
-                className={getClass(["text-field__input", {"text-field__label_input": isSmall}])}
+                className={getClass("text-field__input", {"text-field__label_input": isSmall})}
                 id={id}
                 name={name}
                 type={type}
