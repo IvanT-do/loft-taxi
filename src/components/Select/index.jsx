@@ -1,9 +1,9 @@
 import React from "react";
-import {InputAdornment, MenuItem, Select as MuiSelect} from "@mui/material";
+import {Autocomplete, InputAdornment, TextField} from "@mui/material";
 
 export default function Select({label, startAdornment, options, sx, ...props}){
     return (
-        <MuiSelect
+        <Autocomplete
             {...props}
             fullWidth
             sx={{
@@ -11,7 +11,7 @@ export default function Select({label, startAdornment, options, sx, ...props}){
                 border: "none",
                 borderRadius: 0,
                 "& .MuiSelect-select":{
-                  pl: "10px"
+                    pl: "10px"
                 },
                 "& .MuiOutlinedInput-notchedOutline": {
                     outline: "none",
@@ -19,15 +19,22 @@ export default function Select({label, startAdornment, options, sx, ...props}){
                 },
                 ...sx
             }}
-            startAdornment={startAdornment && (
-                <InputAdornment position="start">
-                    {startAdornment}
-                </InputAdornment>
+            options={options.map(value => ({label: value, value}))}
+            isOptionEqualToValue={(opt, val) => opt.value === val}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    placeholder={label}
+                    InputProps={{
+                        ...params.InputProps,
+                        startAdornment: startAdornment && (
+                            <InputAdornment position="start">
+                                {startAdornment}
+                            </InputAdornment>
+                        )
+                    }}
+                />
             )}
-        >
-            {
-                options.map((item, i) => <MenuItem key={item + i} value={item}>{item}</MenuItem>)
-            }
-        </MuiSelect>
+        />
     );
 }

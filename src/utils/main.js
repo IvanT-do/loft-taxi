@@ -52,7 +52,7 @@ let layerId = 0;
 export const drawRoute = (map, coordinates) => {
     const getId = () => `route${ layerId }`;
 
-    let id = getId();
+    const id = getId();
 
     map.flyTo({
         center: coordinates[0],
@@ -63,11 +63,10 @@ export const drawRoute = (map, coordinates) => {
         map.removeLayer(id);
     }
 
-    layerId ++;
-    id = getId();
+    layerId++;
 
     map.addLayer({
-        id,
+        id: getId(),
         type: "line",
         source: {
             type: "geojson",

@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchAddressesIfNotLoaded, fetchRouteAsync, getAddresses} from "../../store/orderSlice";
-import {fetchProfileIfNotLoaded} from "../../store/mainSlice";
+import {fetchRouteAsync, getAddresses} from "../../store/orderSlice";
 import Select from "../Select";
 import OrderCar from "../OrderCar";
 import Button from "../Button";
+import {getClass} from "../../utils/main";
 
 import "./style.css";
 
@@ -38,19 +38,19 @@ export default function OrderForm({ onSubmit }){
     const dispatch = useDispatch();
 
     const [currentTariff, setCurrentTariff] = React.useState(carsContent[0].type);
-    const [from, setFrom] = React.useState("");
-    const [to, setTo] = React.useState("");
+    const [from, setFrom] = React.useState(null);
+    const [to, setTo] = React.useState(null);
 
     const tariffChangeHandle = (type) => () => {
         setCurrentTariff(type);
     }
 
     const handleFromChange = (e, newVal) => {
-        setFrom(newVal.props.value);
+        setFrom(newVal?.value || null);
     }
 
     const handleToChange = (e, newVal) => {
-        setTo(newVal.props.value);
+        setTo(newVal?.value || null);
     }
 
     const submitOrderHandle = () => {
@@ -71,7 +71,7 @@ export default function OrderForm({ onSubmit }){
 
     return (
         <div className="map-card order">
-            <div className="order__address">
+            <div className={getClass(["order__address", {"order__address_minimal": !from || !to}])}>
                 <Select
                     sx={{
                         borderBottom: "solid 1px #E0E0E0"
