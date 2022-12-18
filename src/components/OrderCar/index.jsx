@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import {getClass} from "../../utils/main";
 
 import "./style.css";
@@ -20,4 +21,12 @@ export default function OrderCar({name, cost, image, active, onClick}){
             />
         </div>
     )
+}
+
+OrderCar.propTypes = {
+    name: PropTypes.string.isRequired,
+    cost: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    active: PropTypes.bool,
+    onClick: PropTypes.func
 }

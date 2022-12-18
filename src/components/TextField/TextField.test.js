@@ -1,4 +1,4 @@
-import {createEvent, fireEvent, getByDisplayValue, render} from "@testing-library/react";
+import {fireEvent, render} from "@testing-library/react";
 import '@testing-library/jest-dom';
 
 import TextField from "./index";

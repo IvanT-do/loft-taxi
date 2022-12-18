@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import Button from "../Button";
 
 import  "./style.css";
@@ -16,4 +17,8 @@ export default function OrderSuccess({onClose}) {
             </div>
         </div>
     );
+}
+
+OrderSuccess.propTypes = {
+    onClose: PropTypes.func.isRequired
 }

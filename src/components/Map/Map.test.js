@@ -1,11 +1,22 @@
-import {render, waitFor} from "@testing-library/react";
+import {render} from "@testing-library/react";
 import mapboxgl from "mapbox-gl";
 import '@testing-library/jest-dom'
 
 import Map from "./index";
 
-jest.mock("mapbox-gl");
+jest.mock("axios", () => ({
+    defaults: {}
+}));
 
+jest.mock("../../store/orderSlice", () => ({
+    getTargetCoordinates: () => []
+}))
+jest.mock("react-redux", () => ({
+    useSelector: (fn) => fn()
+}))
+
+
+jest.mock("mapbox-gl");
 const removeHandle = jest.fn();
 const mapImplement = jest.fn(() => ({
     on: jest.fn(),

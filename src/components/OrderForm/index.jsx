@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchRouteAsync, getAddresses} from "../../store/orderSlice";
+import PropTypes from "prop-types";
 import Select from "../Select";
 import OrderCar from "../OrderCar";
 import Button from "../Button";
@@ -12,7 +13,7 @@ import standard from "./assets/standard.jpg";
 import premium from "./assets/premium.jpg";
 import business from "./assets/business.png";
 
-const carsContent = [
+export const carsContent = [
     {
         name: "Стандарт",
         cost: 150,
@@ -73,9 +74,6 @@ export default function OrderForm({ onSubmit }){
         <div className="map-card order">
             <div className={getClass("order__address", {"order__address_minimal": !from || !to})}>
                 <Select
-                    sx={{
-                        borderBottom: "solid 1px #E0E0E0"
-                    }}
                     id="fromAddr"
                     value={from}
                     onChange={handleFromChange}
@@ -86,6 +84,9 @@ export default function OrderForm({ onSubmit }){
                         </svg>
                     )}
                     options={addresses.filter(item => item !== to)}
+                    sx={{
+                        borderBottom: "solid 1px #E0E0E0"
+                    }}
                 />
                 <Select
                     id="toAddr"
@@ -107,7 +108,7 @@ export default function OrderForm({ onSubmit }){
                 />
             </div>
             {
-                !!from &&  !!to && (
+                !!from && !!to && (
                     <div className="order__tariff">
                         <div className="order__tariff-cars">
                             {
@@ -129,4 +130,8 @@ export default function OrderForm({ onSubmit }){
             }
         </div>
     );
+}
+
+OrderForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired
 }
